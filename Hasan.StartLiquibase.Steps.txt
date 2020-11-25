@@ -1,0 +1,45 @@
+1-Add liquibase dependency to your pom file as following regarding last version
+
+    <dependency>
+	    <groupId>org.liquibase</groupId>
+	    <artifactId>liquibase-core</artifactId>
+	    <version>${liquibase.version}</version>
+	</dependency>
+
+2-(Optional) Liquibase Maven plugins which is added to pom file is a tool which is used independently from your app by you with mvn command to execute data migration
+
+                <plugin>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-maven-plugin</artifactId>
+                    <version>${liquibase.version}</version>
+                    <configuration>
+                        <propertyFile>src/main/resources/liquibase.properties</propertyFile>
+                    </configuration>
+                </plugin>
+
+    A-You can use liquibase maven plugin to generate changelog for existing database with the following mvn command
+        #   mvn liquibase:generateChangeLog
+        the contents of liquibase.properties should be as following (configured inside plugin configuration element)
+                    url=jdbc:mysql://localhost:3306/oauth_reddit
+                    username=tutorialuser
+                    password=tutorialmy5ql
+                    driver=com.mysql.jdbc.Driver
+                    outputChangeLogFile=src/main/resources/liquibase-outputChangeLog.xml
+    B-You can use liquibase maven plugin to generate changelog file which reflects the difference between two databases with the following maven command:
+        #	mvn liquibase:diff
+        he contents of liquibase.properties should be as following (configured inside plugin configuration element)
+                    changeLogFile=src/main/resources/liquibase-changeLog.xml
+                    url=jdbc:mysql://localhost:3306/oauth_reddit
+                    username=tutorialuser
+                    password=tutorialmy5ql
+                    driver=com.mysql.jdbc.Driver
+                    referenceUrl=jdbc:h2:mem:oauth_reddit
+                    diffChangeLogFile=src/main/resources/liquibase-diff-changeLog.xml
+                    referenceDriver=org.h2.Driver
+                    referenceUsername=sa
+                    referencePassword=
+
+3-Add Hibernate to maven liquibase plugin to reflect our model into database and handle versioning but you should use a long variable inside your model classes to change it when any changes applied tou your model class
+    A-First add that dependency to your liquibase maven plugin
+
+------------hasan stopped here-----------------
